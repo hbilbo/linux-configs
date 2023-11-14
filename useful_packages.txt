@@ -1,0 +1,29 @@
+# Useful packages to install in Ubuntu
+git
+xdg-utils
+gcc
+fuse
+neofetch
+openssh-server
+openssh-client
+ifconfig
+net-tools
+cmake
+python3
+python3-venv
+python3-pip
+npm # node package manager, needed for mason in neovim
+unzip
+dotnet-sdk-7.0
+pass
+
+# ffmpeg install
+ffmpeg
+sudo apt install libsdl2-2.0-0 libsdl2-dev
+
+# Fixing libGL errors in Conda environment after Python install 
+# replace <env> with your conda environment
+cd /home/hbilbo/miniconda3/envs/<env>/lib
+cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30 ./
+ln -sf libstdc++.so.6.0.30 libstdc++.so
+ln -sf libstdc++.so.6.0.30 libstdc++.so.6

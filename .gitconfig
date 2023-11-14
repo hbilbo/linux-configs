@@ -1,0 +1,12 @@
+[credential]
+	helper = /home/hbilbo/.dotnet/tools/git-credential-manager
+	credentialStore = gpg
+[credential "https://dev.azure.com"]
+	useHttpPath = true
+[user]
+	email = 83983938+hbilbo@users.noreply.github.com
+	name = Hayden Bilbo
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
