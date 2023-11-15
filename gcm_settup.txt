@@ -1,0 +1,39 @@
+# Setting up Git Credential Manager (GCM) on Windows Subsystem for Linux (wsl).
+# Note: This approach is isolated from the Windows environment, although there
+# are steps to setting it up to work with Windows as well.
+
+# Install .NET 7.0
+sudo apt install dotnet-sdk-7.0
+# Add dotnet tools to PATH env variable by appending this to the end of .bashrc file
+export PATH="$PATH:/home/bagginses/.dotnet/tools"
+# Might need this in .bashrc if running a completely headless setup
+export GPG_TTY=$(tty)
+
+# Install and configure GCM
+dotnet tool install -g git-credential-manager
+git-credential-manager configure
+dotnet tool update -g git-credential-manager
+
+# Generate encryption key using gpg
+gpg --gen-key
+gpg --list-keys
+# Grab gpg key from output of above command and generate a password store
+pass init <gpg-id>
+# Where your gpg-id is found from gpg --list-keys e.g. 37DD9DE2477A8E21DEE01B2AB1055AF619EA9EAD  
+
+# Test xdg-open to make sure you can open web links from wsl
+xdg-open https://google.com
+# If you see an error "882: No file found", you need to point wsl to where your browser
+# is located on Windows. However, xdg-open is expecting a path with no spaces and since
+# most Windows browsers are located under a "Program Files" folder xdg will not be able
+# to reach the link. A work around is to create a symbolic link to the file and point the
+# environment variable to that link
+ln -s "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe" chrome
+# Then add the env variable to end of .bashrc file
+export BROWSER=~/chrome
+# Test xdg-open again and make sure it's working
+
+# GCM should now be configured and working. Test it by pulling a Github repo, which should
+# prompt you to login to your account. After this, anytime you interact with GCM it should
+# ask for the password you created earlier to verify your identity and automatically pull
+# your credentials
