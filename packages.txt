@@ -1,5 +1,7 @@
 git
+wget
 dotnet-sdk-7.0
+gpg
 pass
 xdg-utils
 gcc
