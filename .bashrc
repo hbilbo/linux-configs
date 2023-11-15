@@ -62,20 +62,4 @@ export BROWSER=~/chrome
 export PYTHONPATH=~/structural_dynamics
 export PATH=/home/hbilbo/.local/bin:$PATH
 export OPENAI_API_KEY="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"
-PS1="\e[0;32m\u:\w \$\e[0m"
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/hbilbo/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/hbilbo/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/hbilbo/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/hbilbo/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
+PS1="\[\e[0;32m\]\u:\w \$\[\e[0m\]"
