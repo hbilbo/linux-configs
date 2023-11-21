@@ -1,5 +1,3 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-
 # if not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -32,7 +30,6 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -57,9 +54,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export GPG_TTY=$(tty)
-export BROWSER=~/chrome
-export PYTHONPATH=~/structural_dynamics
-export PATH=/home/hbilbo/.local/bin:$PATH
-export OPENAI_API_KEY="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"
+# export BROWSER=~/chrome
+# export PYTHONPATH=
+export PATH=$HOME/.local/bin:$PATH
+# export OPENAI_API_KEY=
 PS1="\[\e[0;32m\]\u:\w \$\[\e[0m\]"
+# PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
