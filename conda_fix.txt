@@ -1,6 +1,6 @@
 # Fixing libGL errors in Conda environment after Python install 
 # replace <env> with your conda environment
-# cd /home/hbilbo/miniconda3/envs/<env>/lib
-# cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30 ./
-# ln -sf libstdc++.so.6.0.30 libstdc++.so
-# ln -sf libstdc++.so.6.0.30 libstdc++.so.6
+cd /home/hbilbo/miniconda3/envs/<env>/lib
+cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30 ./
+ln -sf libstdc++.so.6.0.30 libstdc++.so
+ln -sf libstdc++.so.6.0.30 libstdc++.so.6
