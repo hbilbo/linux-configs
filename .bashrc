@@ -54,9 +54,15 @@ if ! shopt -oq posix; then
   fi
 fi
 
+<<<<<<< HEAD
 # export BROWSER=~/chrome
 # export PYTHONPATH=
 export PATH=$HOME/.local/bin:$PATH
 # export OPENAI_API_KEY=
 PS1="\[\e[0;32m\]\u:\w \$\[\e[0m\]"
 # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+=======
+PS1="\[\e[0;32m\]\u:\w \$\[\e[0m\]"
+export PATH=/home/hbilbo/.local/bin:$PATH
+export OPENAI_API_KEY="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"
+>>>>>>> 3faebd7 (Changed linux-install script to be interactive with options on whether)
