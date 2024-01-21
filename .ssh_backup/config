@@ -1,0 +1,6 @@
+Host Thanos
+Hostname truenas.local
+User admin
+PubKeyAuthentication yes
+IdentityFile /home/bagginses/.ssh/id_rsa
+IdentitiesOnly yes
