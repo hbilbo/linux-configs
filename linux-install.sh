@@ -65,6 +65,11 @@ if [[ "$chrome_install" == "y" ]]; then
 	sudo apt install --fix-broken -y
 	sudo dpkg -i google-chrome-stable_current_amd64.deb
 	cd $OLDPWD
+
+	# --- ONLY FOR WSL ---
+	# create symbolic link to chrome installation location and set BROWSER env variable
+	# ln -s "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe" chrome
+	# export BROWSER=~/chrome >> .bashrc
 fi
 
 # Homebrew Installation

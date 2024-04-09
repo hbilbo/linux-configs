@@ -28,10 +28,5 @@ git-credential-manager configure
 dotnet tool update -g git-credential-manager
 echo "export GPG_TTY=\$(tty)" >> ~/.bashrc
 
-# --- ONLY FOR WSL ---
-# create symbolic link to chrome installation location and set BROWSER env variable
-ln -s "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe" chrome
-export BROWSER=~/chrome >> .bashrc
-
 # Initializing GPG key with pass
 gpg --batch --quick-gen-key "$GIT_NAME <$GIT_EMAIL>" && pass init "$GIT_NAME <$GIT_EMAIL>"
