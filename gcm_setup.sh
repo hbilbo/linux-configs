@@ -10,8 +10,8 @@ GIT_CREDENTIAL_STORE="gpg"
 echo "Installing dependencies..."
 sudo apt install git pass gpg dotnet-sdk-7.0
 # Set path to dotnet tools
-export PATH=$HOME/.dotnet/tools:$PATH
-echo "export PATH=\$HOME/.dotnet/tools:\$PATH" >> ~/.bashrc
+export PATH=$HOME/.dotnet:/$HOME/.dotnet/tools:$PATH
+echo "export PATH=\$HOME/.dotnet:\$HOME/.dotnet/tools:\$PATH" >> ~/.bashrc
 dotnet tool install -g git-credential-manager
 
 echo "Configuring Git settings..."

@@ -39,7 +39,7 @@ check_input "$lazygit_install"
 # Package Installation
 if [[ "$package_install" == "y" ]]; then
 	echo "Installing packages..."
-	xargs sudo apt -y install < packages.txt
+	xargs sudo apt -y install < apt_packages.txt
 
 	# Create symbolic links to programs
 	ln -s $(which fdfind) /usr/local/bin/fd
