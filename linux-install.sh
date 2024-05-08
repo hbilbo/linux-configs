@@ -20,6 +20,10 @@ read -p "Install contents of 'apt_packages.txt'? [y/n/a]: " package_install
 package_install=$(echo "$package_install" | tr '[:upper:]' '[:lower:]')
 check_input "$package_install"
 
+read -p "Install Oh-My-Posh? [y/n/a]: " ohmyposh_install
+ohmyposh_install=$(echo "$ohmyposh_install" | tr '[:upper:]' '[:lower:]')
+check_input "$ohmyposh_install"
+
 read -p "Install Neovim? [y/n/a]: " neovim_install
 neovim_install=$(echo "$neovim_install" | tr '[:upper:]' '[:lower:]')
 check_input "$neovim_install"
@@ -36,6 +40,12 @@ read -p "Install Lazygit? [y/n/a]: " lazygit_install
 lazygit_install=$(echo "$lazygit_install" | tr '[:upper:]' '[:lower:]')
 check_input "$lazygit_install"
 
+# Replace .bashrc and .bash_aliases
+cp .bashrc ~
+cp .bash_aliases ~
+# Update bash
+source ~/.bashrc
+
 # Package Installation
 if [[ "$package_install" == "y" ]]; then
 	echo "Installing packages..."
@@ -43,6 +53,22 @@ if [[ "$package_install" == "y" ]]; then
 
 	# Create symbolic links to programs
 	ln -s $(which fdfind) /usr/local/bin/fd
+fi
+
+# Oh-My-Posh Installation
+if [[ "$neovim_install" == "y" ]]; then
+	echo "Installing oh-my-posh..."
+	# Install oh-my-posh using install script
+	curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
+	# Install nerd fonts (This uses hack font, tailer to your desired font)
+ 	wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip
+	unzip Hack.zip -d ~/.local/share/fonts
+	fc-cache -fv
+ 	# Move config and update .bashrc
+  	cp hacker.omp.json ~/.config/
+  	echo "eval \"\$(oh-my-posh init bash --config /home/hbilbo/.config/hacker.omp.json)\"" >> ~/.bashrc
+   	# Update bash
+    	source ~/.bashrc
 fi
 
 # Neovim Installation
@@ -55,40 +81,40 @@ if [[ "$neovim_install" == "y" ]]; then
 	git clone https://github.com/hbilbo/kickstart.nvim.git ~/.config/nvim
 fi
 
-# Google Chrome Installation
-if [[ "$chrome_install" == "y" ]]; then
-	echo "Installing Google Chrome..."
-	# Install google chrome for wsl (REQUIRES WSL2)
-	cd /tmp
-	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-	sudo dpkg -i google-chrome-stable_current_amd64.deb
-	sudo apt install --fix-broken -y
-	sudo dpkg -i google-chrome-stable_current_amd64.deb
-	cd $OLDPWD
+# # Google Chrome Installation
+# if [[ "$chrome_install" == "y" ]]; then
+# 	echo "Installing Google Chrome..."
+# 	# Install google chrome for wsl (REQUIRES WSL2)
+# 	cd /tmp
+# 	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+# 	sudo dpkg -i google-chrome-stable_current_amd64.deb
+# 	sudo apt install --fix-broken -y
+# 	sudo dpkg -i google-chrome-stable_current_amd64.deb
+# 	cd $OLDPWD
 
-	# --- ONLY FOR WSL ---
-	# create symbolic link to chrome installation location and set BROWSER env variable
-	# ln -s "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe" chrome
-	# export BROWSER=~/chrome >> .bashrc
-fi
+# 	# --- ONLY FOR WSL ---
+# 	# create symbolic link to chrome installation location and set BROWSER env variable
+# 	# ln -s "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe" chrome
+# 	# export BROWSER=~/chrome >> .bashrc
+# fi
 
-# Homebrew Installation
-if [[ "$homebrew_install" == "y" ]]; then
-	echo "Installing Homebrew package manager..."
-	# Install homebrew package manager
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.bashrc
-fi
+# # Homebrew Installation
+# if [[ "$homebrew_install" == "y" ]]; then
+# 	echo "Installing Homebrew package manager..."
+# 	# Install homebrew package manager
+# 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# 	(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $HOME/.bashrc
+# fi
 
-# Lazygit Installation
-if [[ "$lazygit_install" == "y" ]]; then
-	echo "Installing lazygit..."
-	# Install lazygit
-	# via Ubuntu native commands
-	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-	curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-	tar xf lazygit.tar.gz lazygit
-	sudo install lazygit /usr/local/bin
-	# or via homebrew
-	# brew install jesseduffield/lazygit/lazygit
-fi
+# # Lazygit Installation
+# if [[ "$lazygit_install" == "y" ]]; then
+# 	echo "Installing lazygit..."
+# 	# Install lazygit
+# 	# via Ubuntu native commands
+# 	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+# 	curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+# 	tar xf lazygit.tar.gz lazygit
+# 	sudo install lazygit /usr/local/bin
+# 	# or via homebrew
+# 	# brew install jesseduffield/lazygit/lazygit
+# fi
