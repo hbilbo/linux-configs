@@ -55,4 +55,3 @@ if ! shopt -oq posix; then
 fi
 
 export PATH=$HOME/.local/bin:$PATH
-PS1="\[\e[0;32m\]\u:\w \$\[\e[0m\]"

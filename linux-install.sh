@@ -32,23 +32,24 @@ read -p "Install Neovim? [y/n/a]: " neovim_install
 neovim_install=$(echo "$neovim_install" | tr '[:upper:]' '[:lower:]')
 check_input "$neovim_install"
 
-read -p "Install Google Chrome for WSL2? [y/n/a]: " chrome_install
-chrome_install=$(echo "$chrome_install" | tr '[:upper:]' '[:lower:]')
-check_input "$chrome_install"
+#read -p "Install Google Chrome for WSL2? [y/n/a]: " chrome_install
+#chrome_install=$(echo "$chrome_install" | tr '[:upper:]' '[:lower:]')
+#check_input "$chrome_install"
 
-read -p "Install Homebrew? [y/n/a]: " homebrew_install
-homebrew_install=$(echo "$homebrew_install" | tr '[:upper:]' '[:lower:]')
-check_input "$homebrew_install"
+#read -p "Install Homebrew? [y/n/a]: " homebrew_install
+#homebrew_install=$(echo "$homebrew_install" | tr '[:upper:]' '[:lower:]')
+#check_input "$homebrew_install"
 
-read -p "Install Lazygit? [y/n/a]: " lazygit_install
-lazygit_install=$(echo "$lazygit_install" | tr '[:upper:]' '[:lower:]')
-check_input "$lazygit_install"
+#read -p "Install Lazygit? [y/n/a]: " lazygit_install
+#lazygit_install=$(echo "$lazygit_install" | tr '[:upper:]' '[:lower:]')
+#check_input "$lazygit_install"
 
 # Configuration
-if [[ "$package_install" == "y" ]]; then
+if [[ "$replace_config" == "y" ]]; then
 	# Replace .bashrc and .bash_aliases
 	cp .bashrc ~
 	cp .bash_aliases ~
+	cp .gitconfig ~
 	# Update bash
 	source ~/.bashrc
 fi
@@ -63,15 +64,17 @@ if [[ "$package_install" == "y" ]]; then
 fi
 
 # Oh-My-Posh Installation
-if [[ "$neovim_install" == "y" ]]; then
+if [[ "$ohmyposh_install" == "y" ]]; then
 	echo "Installing oh-my-posh..."
+	mkdir ~/.local/bin
 	# Install oh-my-posh using install script
 	curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
 	# Install nerd fonts (This uses hack font, tailer to your desired font)
  	wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip
 	unzip Hack.zip -d ~/.local/share/fonts
 	fc-cache -fv
- 	# Move config and update .bashrc
+	rm Hack.zip
+ 	# Copy config and update .bashrc
   	cp hacker.omp.json ~/.config/
   	echo "eval \"\$(oh-my-posh init bash --config /home/hbilbo/.config/hacker.omp.json)\"" >> ~/.bashrc
    	# Update bash
@@ -83,9 +86,9 @@ if [[ "$neovim_install" == "y" ]]; then
 	echo "Installing neovim..."
 	# Install latest neovim from source
 	wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
-	chmod +x nvim.appimage && sudo mv nvim.appimage /usr/local/bin/	
+	chmod +x nvim.appimage && sudo mv nvim.appimage /usr/local/bin/nvim	
 	# Add neovim configs
-	git clone https://github.com/hbilbo/kickstart.nvim.git ~/.config/nvim
+	git clone git@github.com:hbilbo/nvim-config.git ~/.config/nvim
 fi
 
 # # Google Chrome Installation
