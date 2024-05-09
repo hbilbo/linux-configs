@@ -51,7 +51,7 @@ if [[ "$replace_config" == "y" ]]; then
 	cp .bash_aliases ~
 	cp .gitconfig ~
 	# Update bash
-	source ~/.bashrc
+	exec bash
 fi
 
 # Package Installation
@@ -78,7 +78,7 @@ if [[ "$ohmyposh_install" == "y" ]]; then
   	cp hacker.omp.json ~/.config/
   	echo "eval \"\$(oh-my-posh init bash --config /home/hbilbo/.config/hacker.omp.json)\"" >> ~/.bashrc
    	# Update bash
-    	source ~/.bashrc
+    	exec bash
 fi
 
 # Neovim Installation
