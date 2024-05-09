@@ -14,9 +14,17 @@ if [[ "$1" != "y" && "$1" != "n" ]]; then
 fi
 }
 
+read -p "Replace dotfiles with custom configs? [y/n/a]: " configure_setup
+configure_setup=$(echo "$configure_setup" | tr '[:upper:]' '[:lower:]')
+check_input "$configure_setup"
+
 read -p "Install contents of 'apt_packages.txt'? [y/n/a]: " package_install
 package_install=$(echo "$package_install" | tr '[:upper:]' '[:lower:]')
 check_input "$package_install"
+
+read -p "Install Docker? [y/n/a]: " docker_install
+docker_install=$(echo "$docker_install" | tr '[:upper:]' '[:lower:]')
+check_input "$docker_install"
 
 read -p "Install Oh-My-Posh? [y/n/a]: " ohmyposh_install
 ohmyposh_install=$(echo "$ohmyposh_install" | tr '[:upper:]' '[:lower:]')
@@ -39,16 +47,22 @@ check_input "$neovim_install"
 #check_input "$lazygit_install"
 
 # Update package repositories
-sudo apt update && sudo apt upgrade -y
+echo
+echo "Updgrading current packages..."
+sudo apt update -qq && sudo apt upgrade -qq -y
 
 # Configuration
-mkdir ~/.local/bin
-# Replace .bashrc and .bash_aliases
-cp .bashrc ~
-cp .bash_aliases ~
-cp .gitconfig ~
-# Update bash
-source ~/.bashrc
+if [ ! -d ~/.local/bin ]; then
+	mkdir ~/.local/bin
+fi
+if [[ "$configure_setup" == "y" ]]; then
+	# Replace .bashrc and .bash_aliases
+	cp .bashrc ~
+	cp .bash_aliases ~
+	cp .gitconfig ~
+	# Update bash
+	source ~/.bashrc
+fi
 
 # Package Installation
 if [[ "$package_install" == "y" ]]; then
@@ -57,6 +71,15 @@ if [[ "$package_install" == "y" ]]; then
 
 	# Create symbolic links to programs
 	ln -s $(which fdfind) /usr/local/bin/fd
+fi
+
+# Docker Installation
+if [[ "$docker_install" == "y" ]]; then
+	echo "Installing Docker..."
+	curl -fsSL https://get.docker.com -o get-docker.sh
+	sudo sh get-docker.sh
+	rm get-docker.sh
+	sudo usermod -aG docker $USER
 fi
 
 # Oh-My-Posh Installation
@@ -121,3 +144,7 @@ fi
 # 	tar xf lazygit.tar.gz lazygit
 # 	sudo install lazygit /usr/local/bin
 # fi
+
+echo; echo
+echo "Setup completed. Please restart terminal session!"
+echo "NOTE: If this is a VM, you may need to reboot for changes to take effect."
