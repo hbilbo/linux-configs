@@ -16,6 +16,10 @@ if [[ "$1" != "y" && "$1" != "n" ]]; then
 fi
 }
 
+read -p "Replace .bashrc and .bash_aliases file? [y/n/a]: " replace_config
+replace_config=$(echo "$replace_config" | tr '[:upper:]' '[:lower:]')
+check_input "$replace_config"
+
 read -p "Install contents of 'apt_packages.txt'? [y/n/a]: " package_install
 package_install=$(echo "$package_install" | tr '[:upper:]' '[:lower:]')
 check_input "$package_install"
@@ -40,11 +44,14 @@ read -p "Install Lazygit? [y/n/a]: " lazygit_install
 lazygit_install=$(echo "$lazygit_install" | tr '[:upper:]' '[:lower:]')
 check_input "$lazygit_install"
 
-# Replace .bashrc and .bash_aliases
-cp .bashrc ~
-cp .bash_aliases ~
-# Update bash
-source ~/.bashrc
+# Configuration
+if [[ "$package_install" == "y" ]]; then
+	# Replace .bashrc and .bash_aliases
+	cp .bashrc ~
+	cp .bash_aliases ~
+	# Update bash
+	source ~/.bashrc
+fi
 
 # Package Installation
 if [[ "$package_install" == "y" ]]; then
