@@ -2,8 +2,6 @@
 
 echo "Please enter y(yes), n(no), or a(abort)"
 echo
-# Update package repositories
-sudo apt update && sudo apt upgrade -y
 
 function check_input {
 if [[ "$1" == "a" ]]; then
@@ -15,10 +13,6 @@ if [[ "$1" != "y" && "$1" != "n" ]]; then
 	exit 1
 fi
 }
-
-read -p "Replace .bashrc and .bash_aliases file? [y/n/a]: " replace_config
-replace_config=$(echo "$replace_config" | tr '[:upper:]' '[:lower:]')
-check_input "$replace_config"
 
 read -p "Install contents of 'apt_packages.txt'? [y/n/a]: " package_install
 package_install=$(echo "$package_install" | tr '[:upper:]' '[:lower:]')
@@ -44,15 +38,17 @@ check_input "$neovim_install"
 #lazygit_install=$(echo "$lazygit_install" | tr '[:upper:]' '[:lower:]')
 #check_input "$lazygit_install"
 
+# Update package repositories
+sudo apt update && sudo apt upgrade -y
+
 # Configuration
-if [[ "$replace_config" == "y" ]]; then
-	# Replace .bashrc and .bash_aliases
-	cp .bashrc ~
-	cp .bash_aliases ~
-	cp .gitconfig ~
-	# Update bash
-	exec bash
-fi
+mkdir ~/.local/bin
+# Replace .bashrc and .bash_aliases
+cp .bashrc ~
+cp .bash_aliases ~
+cp .gitconfig ~
+# Update bash
+source ~/.bashrc
 
 # Package Installation
 if [[ "$package_install" == "y" ]]; then
@@ -66,7 +62,6 @@ fi
 # Oh-My-Posh Installation
 if [[ "$ohmyposh_install" == "y" ]]; then
 	echo "Installing oh-my-posh..."
-	mkdir ~/.local/bin
 	# Install oh-my-posh using install script
 	curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
 	# Install nerd fonts (This uses hack font, tailer to your desired font)
@@ -78,7 +73,7 @@ if [[ "$ohmyposh_install" == "y" ]]; then
   	cp hacker.omp.json ~/.config/
   	echo "eval \"\$(oh-my-posh init bash --config /home/hbilbo/.config/hacker.omp.json)\"" >> ~/.bashrc
    	# Update bash
-    	exec bash
+    	source ~/.bashrc
 fi
 
 # Neovim Installation
@@ -88,7 +83,7 @@ if [[ "$neovim_install" == "y" ]]; then
 	wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
 	chmod +x nvim.appimage && sudo mv nvim.appimage /usr/local/bin/nvim	
 	# Add neovim configs
-	git clone git@github.com:hbilbo/nvim-config.git ~/.config/nvim
+	git clone https://github.com/hbilbo/nvim-config.git ~/.config/nvim
 fi
 
 # # Google Chrome Installation
@@ -125,6 +120,4 @@ fi
 # 	curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 # 	tar xf lazygit.tar.gz lazygit
 # 	sudo install lazygit /usr/local/bin
-# 	# or via homebrew
-# 	# brew install jesseduffield/lazygit/lazygit
 # fi
