@@ -3,7 +3,6 @@ wget
 curl
 gcc
 cmake
-fuse
 neofetch
 python3
 python3-venv
