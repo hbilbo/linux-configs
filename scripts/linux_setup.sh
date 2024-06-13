@@ -53,7 +53,7 @@ fi
 # Package Installation
 if [[ "$package_install" == "y" ]]; then
 	echo "Installing packages..."
-	xargs sudo apt -y install < apt_packages.txt
+	xargs sudo apt -y install < ../apt_packages.txt
 
 	# Create symbolic links to programs
 	ln -s $(which fdfind) /usr/local/bin/fd
@@ -86,9 +86,9 @@ fi
 if [[ "$neovim_install" == "y" ]]; then
 	echo "Installing neovim..."
 	# Install latest neovim from source
-	# wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
-	# chmod +x nvim.appimage && sudo mv nvim.appimage /usr/local/bin/nvim	
-	sudo apt install neovim
+	wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
+	chmod +x nvim.appimage && sudo mv nvim.appimage /usr/local/bin/nvim	
+	# sudo apt install neovim
 	# Add neovim configs
 	git clone https://github.com/hbilbo/nvim-config.git ~/.config/nvim
 fi
