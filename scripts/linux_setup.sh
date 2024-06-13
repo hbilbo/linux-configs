@@ -34,6 +34,10 @@ read -p "Install Neovim? [y/n/a]: " neovim_install
 neovim_install=$(echo "$neovim_install" | tr '[:upper:]' '[:lower:]')
 check_input "$neovim_install"
 
+read -p "Install Moonlight Remote Desktop Client? [y/n/a]: " moonlight_install
+moonlight_install=$(echo "$moonlight_install" | tr '[:upper:]' '[:lower:]')
+check_input "$moonlight_install"
+
 # Update package repositories
 echo
 echo "Updgrading current packages..."
@@ -91,6 +95,18 @@ if [[ "$neovim_install" == "y" ]]; then
 	# sudo apt install neovim
 	# Add neovim configs
 	git clone https://github.com/hbilbo/nvim-config.git ~/.config/nvim
+fi
+ 
+# Moonlight Installation
+if [[ "$moonlight_install" == "y" ]]; then
+	echo "Installing Moonlight..."
+	# Fetch latest release information from GitHub API
+	latest_release_url=$(curl -sL https://api.github.com/repos/moonlight-stream/moonlight-qt/releases/latest | jq -r '.assets[] | select(.name | endswith(".AppImage")) | .browser_download_url')
+	file=$(basename "$latest_release_url")
+
+	# Download the latest AppImage
+	curl -L -o moonlight.appimage "$latest_release_url"
+	chmod +x moonlight.appimage && mv ~/.local/bin/moonlight
 fi
 
 echo; echo

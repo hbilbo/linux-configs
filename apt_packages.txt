@@ -12,3 +12,4 @@ ripgrep
 unzip
 fd-find
 ffmpeg
+code

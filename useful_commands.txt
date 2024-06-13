@@ -1,7 +1,0 @@
-git reset --soft HEAD~1
-# The following command is an example of finding files that match a specific pattern (Image_C001) and
-# replacing it with a specific character (C).
-find . -type f -name "Image_C001*" -execdir bash -c 'mv "$1" "${1//Image_C001/C}"' _ {} \;
-# The above command should work on almost anything containing bash (like git bash). For full linux distros,
-# the following command is simpler and can be more efficient
-find . -type f -name "Image_C001*" -execdir rename 's/Image_C001/C001/' {} +
