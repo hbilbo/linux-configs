@@ -14,3 +14,7 @@ This is a collection of example commands or useful templates that may not be obv
 `wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage`
 Or
 `wget https://github.com/neovim/neovim/releases/latest/download/nvim.appimage`
+
+### Clear DNS cache (Ubuntu 24.04)
+sudo resolvectl flush-caches
+sudo resolvectl statistics # Check DNS statistics
