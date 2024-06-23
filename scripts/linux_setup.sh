@@ -55,6 +55,7 @@ if [[ "$configure_setup" == "y" ]]; then
 	# Replace .bashrc and .bash_aliases
 	cp .bashrc ~
 	cp .bash_aliases ~
+	cp .profile ~
 	cp .gitconfig ~
 fi
 
@@ -85,9 +86,9 @@ if [[ "$ohmyposh_install" == "y" ]]; then
 	unzip Hack.zip -d ~/.local/share/fonts
 	fc-cache -fv
 	rm Hack.zip
- 	# Copy config and update .bashrc
+ 	# Copy config and update dotfile
   	cp hacker.omp.json ~/.config/
-  	echo "eval \"\$(oh-my-posh init bash --config ~/.config/hacker.omp.json)\"" >> ~/.bashrc
+  	echo "eval \"\$(oh-my-posh init bash --config ~/.config/hacker.omp.json)\"" >> ~/.profile
 fi
 
 # Neovim Installation
@@ -95,7 +96,7 @@ if [[ "$neovim_install" == "y" ]]; then
 	echo "Installing neovim..."
 	# Install latest neovim from source
 	wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
-	chmod +x nvim.appimage && sudo mv nvim.appimage /usr/local/bin/nvim	
+	chmod +x nvim.appimage && sudo mv nvim.appimage ~/.local/bin/nvim
 	# sudo apt install neovim
 	# Add neovim configs
 	git clone https://github.com/hbilbo/nvim-config.git ~/.config/nvim
