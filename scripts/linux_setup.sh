@@ -38,6 +38,10 @@ read -p "Install Moonlight Remote Desktop Client? [y/n/a]: " moonlight_install
 moonlight_install=$(echo "$moonlight_install" | tr '[:upper:]' '[:lower:]')
 check_input "$moonlight_install"
 
+read -p "Install Obsidian? [y/n/a]: " obsidian_install
+obsidian_install=$(echo "$obsidian_install" | tr '[:upper:]' '[:lower:]')
+check_input "$obsidian_install"
+
 # Update package repositories
 echo
 echo "Updgrading current packages..."
@@ -107,6 +111,19 @@ if [[ "$moonlight_install" == "y" ]]; then
 	# Download the latest AppImage
 	curl -L -o moonlight.appimage "$latest_release_url"
 	chmod +x moonlight.appimage && mv ~/.local/bin/moonlight
+fi
+
+# Obsidian Installation
+if [[ "$obsidian_install" == "y" ]]; then
+	echo "Installing Obsidian..."
+	# Fetch latest release information from GitHub API
+	latest_release_url=$(curl -sL https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | jq -r '.assets[] | select(.name | endswith("amd64.deb")) | .browser_download_url')
+	file=$(basename "$latest_release_url")
+
+	# Download the latest release
+	curl -LO "$latest_release_url"
+	sudo apt install ./"$file"
+	rm ./"$file"
 fi
 
 echo; echo
